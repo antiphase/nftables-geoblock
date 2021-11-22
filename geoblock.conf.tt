@@ -1,0 +1,33 @@
+#!/usr/sbin/nft -f
+
+table inet geoblock {
+
+        set geoblock4 {
+                type ipv4_addr
+                flags interval
+                elements = {
+                [% FOREACH cidr = prefixes4 -%]
+                        [% cidr %],
+                [% END -%]
+                }
+        }
+
+        set geoblock6 {
+                type ipv6_addr
+                flags interval
+                elements = {
+                [% FOREACH cidr = prefixes6 -%]
+                        [% cidr %],
+                [% END -%]
+                }
+        }
+
+        chain input {
+                type filter hook input priority 100; policy accept;
+                ip  saddr @geoblock4 udp dport {53, 123} log prefix "geoblock " drop
+                ip6 saddr @geoblock6 udp dport {53, 123} log prefix "geoblock " drop
+                ip  saddr @geoblock4 tcp dport {22, 25, 53, 80, 143, 443, 465, 587, 993} log prefix "geoblock " drop
+                ip6 saddr @geoblock6 tcp dport {22, 25, 53, 80, 143, 443, 465, 587, 993} log prefix "geoblock " drop
+        }
+
+}

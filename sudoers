@@ -1,0 +1,4 @@
+maxmind ALL=NOPASSWD: /bin/chown root.root geoblock.conf, \
+                      /bin/chmod 0644 geoblock.conf, \
+                      /bin/cp geoblock.conf /etc/nftables.d, \
+                      /bin/systemctl restart nftables
