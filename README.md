@@ -4,4 +4,6 @@
 
 3. Put geoblock.conf.tt and bin/ in /var/lib/maxmind and fix perms
 
-4. Add cron job to run wrapper script each Wednesday as the maxmind user
+4. apt install nftables libnet-netmask-perl libtemplate-perl
+
+5. Add cron job to run wrapper script each Wednesday as the maxmind user
